@@ -185,10 +185,13 @@ status_t PublicVolume::doMount() {
         return -errno;
     }
 
+    // ananbox: using mount bind
+#if 0
     while (before == GetDevice(mFuseWrite)) {
         LOG(VERBOSE) << "Waiting for FUSE to spin up...";
         usleep(50000); // 50ms
     }
+#endif
 
     return OK;
 }
