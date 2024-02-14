@@ -67,16 +67,19 @@ int main(int argc, char** argv) {
 
     parse_args(argc, argv);
 
+#if 0
     sehandle = selinux_android_file_context_handle();
     if (sehandle) {
         selinux_android_set_sehandle(sehandle);
     }
+#endif
 
     // Quickly throw a CLOEXEC on the socket we just inherited from init
     fcntl(android_get_control_socket("vold"), F_SETFD, FD_CLOEXEC);
     fcntl(android_get_control_socket("cryptd"), F_SETFD, FD_CLOEXEC);
 
-    mkdir("/dev/block/vold", 0755);
+    // ananbox: disable mkdir
+    //mkdir("/dev/block/vold", 0755);
 
     /* For when cryptfs checks and mounts an encrypted filesystem */
     klog_set_level(6);
@@ -115,7 +118,8 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    coldboot("/sys/block");
+    // ananbox: disable coldboot
+//    coldboot("/sys/block");
 //    coldboot("/sys/class/switch");
 
     /*
@@ -199,6 +203,7 @@ static void do_coldboot(DIR *d, int lvl) {
     }
 }
 
+__attribute__((unused))
 static void coldboot(const char *path) {
     DIR *d = opendir(path);
     if(d) {
