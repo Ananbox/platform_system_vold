@@ -171,10 +171,13 @@ static int do_enablecrypto(char* arg2, char* arg4, int type, bool no_ui) {
 
 int CryptCommandListener::CryptfsCmd::runCommand(SocketClient *cli,
                                                  int argc, char **argv) {
+    // ananbox: disable permission check
+#if 0
     if ((cli->getUid() != 0) && (cli->getUid() != AID_SYSTEM)) {
         cli->sendMsg(ResponseCode::CommandNoPermission, "No permission to run cryptfs commands", false);
         return 0;
     }
+#endif
 
     if (argc < 2) {
         cli->sendMsg(ResponseCode::CommandSyntaxError, "Missing subcommand", false);

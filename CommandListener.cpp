@@ -595,10 +595,13 @@ CommandListener::FstrimCmd::FstrimCmd() :
 }
 int CommandListener::FstrimCmd::runCommand(SocketClient *cli,
                                                       int argc, char **argv) {
+    // ananbox: disable permission check
+#if 0
     if ((cli->getUid() != 0) && (cli->getUid() != AID_SYSTEM)) {
         cli->sendMsg(ResponseCode::CommandNoPermission, "No permission to run fstrim commands", false);
         return 0;
     }
+#endif
 
     if (argc < 2) {
         cli->sendMsg(ResponseCode::CommandSyntaxError, "Missing Argument", false);
