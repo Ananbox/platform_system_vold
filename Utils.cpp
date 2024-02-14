@@ -118,7 +118,10 @@ status_t PrepareDir(const std::string& path, mode_t mode, uid_t uid, gid_t gid) 
     }
 }
 
-status_t ForceUnmount(const std::string& path) {
+status_t ForceUnmount(const std::string& /*path*/) {
+    return OK;
+    // disable umount2
+#if 0
     const char* cpath = path.c_str();
     if (!umount2(cpath, UMOUNT_NOFOLLOW) || errno == EINVAL || errno == ENOENT) {
         return OK;
@@ -146,6 +149,7 @@ status_t ForceUnmount(const std::string& path) {
     }
 
     return -errno;
+#endif
 }
 
 status_t KillProcessesUsingPath(const std::string& path) {

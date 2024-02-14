@@ -497,11 +497,14 @@ static int unmount_tree(const char* path) {
     }
     endmntent(fp);
 
+    // ananbox: disable umount2
+#if 0
     for (auto path : toUnmount) {
         if (umount2(path.c_str(), MNT_DETACH)) {
             ALOGW("Failed to unmount %s: %s", path.c_str(), strerror(errno));
         }
     }
+#endif
     return 0;
 }
 
